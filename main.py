@@ -127,16 +127,31 @@ workflow.set_entry_point("supervisor")
 
 graph = workflow.compile()
 
+def process_input(user_input):
+    # Placeholder for your processing logic
+    # Replace this with your actual logic
+    processed_output = f"Processed: {user_input}"
+    return processed_output
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/process', methods=['POST'])
 def process_request():
-    user_input = request.form['inputText']  # Assuming 'inputText' is the name of your input field
-    # Process the input and prepare a response
-    response = "Processed response: " + user_input  # Replace with your actual processing logic
-    return jsonify({"response": response})
+    # Check if 'inputText' is in the form data
+    if 'inputText' not in request.form:
+        return jsonify({"error": "Missing input data"}), 400
+
+    user_input = request.form['inputText']
+
+    try:
+        # Call the processing function
+        response = process_input(user_input)
+        return jsonify({"response": response})
+    except Exception as e:
+        # Handle any exceptions during processing
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
