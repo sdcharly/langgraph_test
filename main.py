@@ -21,12 +21,14 @@ import gradio as gr
 
 app = Flask(__name__)
 
-# Set environment variables
-os.environ['LANGCHAIN_API_KEY'] = "ls__57919fd338cc4af98595ccd82f455393"
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = "LangGraph Research Agents"
-os.environ["OPENAI_API_KEY"] = "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"
+# Replace direct assignments with environment variables
+langchain_api_key = os.environ.get('LANGCHAIN_API_KEY', 'default_value')
+langchain_tracing = os.environ.get('LANGCHAIN_TRACING_V2', 'true')
+langchain_project = os.environ.get('LANGCHAIN_PROJECT', 'LangGraph Research Agents')
+openai_api_key = os.environ.get('OPENAI_API_KEY', 'default_value')
 
+# Initialize ChatOpenAI model with the environment variable
+llm = ChatOpenAI(model="gpt-4-turbo-preview", api_key=openai_api_key)
 # Initialize ChatOpenAI model
 llm = ChatOpenAI(model="gpt-4-turbo-preview")
 
