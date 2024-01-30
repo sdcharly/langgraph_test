@@ -44,6 +44,22 @@
                 });
             });
         });
+        
+        document.getElementById('textForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var formData = new FormData(this);
+            fetch('/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = data.response;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
     </script>
 </body>
 </html>
