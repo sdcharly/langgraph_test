@@ -1,1 +1,12 @@
 
+Flask==<version>
+requests==<version>
+beautifulsoup4==<version>
+duckduckgo-search==<version>
+gradio==<version>
+
+# LangChain related packages
+langchain==<version>
+langchain-core==<version>
+langchain-openai==<version>
+langchain-google-genai==<version>
