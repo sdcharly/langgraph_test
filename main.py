@@ -29,8 +29,6 @@ openai_api_key = os.environ.get('OPENAI_API_KEY', 'default_value')
 
 # Initialize ChatOpenAI model with the environment variable
 llm = ChatOpenAI(model="gpt-4-turbo-preview", api_key=openai_api_key)
-# Initialize ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4-turbo-preview")
 
 # 1. Define custom tools
 @tool("internet_search", return_direct=False)
