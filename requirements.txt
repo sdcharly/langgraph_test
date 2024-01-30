@@ -1,12 +1,13 @@
 
-Flask==<version>
-requests==<version>
-beautifulsoup4==<version>
-duckduckgo-search==<version>
-gradio==<version>
-
-# LangChain related packages
-langchain==<version>
-langchain-core==<version>
-langchain-openai==<version>
-langchain-google-genai==<version>
+Flask==2.1.2
+Flask-Mail
+Werkzeug==2.0.3
+beautifulsoup4
+requests==2.27.1
+langchain==0.1.3
+langchain-core
+langchain-openai
+langchain-google-genai==0.0.6
+langchain-community==0.0.14
+duckduckgo-search
+gunicorn
