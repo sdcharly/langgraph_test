@@ -133,10 +133,9 @@ def index():
 
 @app.route('/process', methods=['POST'])
 def process_request():
-    content = request.json
-    user_input = content['input']
-    # Process the input using your logic, agents, etc.
-    response = "Processed response based on your input and logic."
+    user_input = request.form['inputText']  # Assuming 'inputText' is the name of your input field
+    # Process the input and prepare a response
+    response = "Processed response: " + user_input  # Replace with your actual processing logic
     return jsonify({"response": response})
 
 if __name__ == "__main__":
