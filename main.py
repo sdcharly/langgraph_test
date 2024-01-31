@@ -121,8 +121,10 @@ def run_graph(input_message):
     })
     return json.dumps(response['messages'][1].content, indent=2)
 
-inputs = gr.inputs.Textbox(lines=2, placeholder="Enter your query here...")
-outputs = gr.outputs.Textbox()
+demo = gr.Interface(
+    fn=run_graph, 
+    inputs="textbox",  # Changed from gr.inputs.Textbox
+    outputs="textbox"  # Changed from gr.outputs.Textbox
+)
 
-demo = gr.Interface(fn=run_graph, inputs=inputs, outputs=outputs)
 demo.launch()
