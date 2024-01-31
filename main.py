@@ -126,6 +126,5 @@ demo = gr.Interface(
     inputs="textbox",  # Changed from gr.inputs.Textbox
     outputs="textbox"  # Changed from gr.outputs.Textbox
 )
-interface.launch(server_port=os.getenv('PORT', 7860))
 
 demo.launch(server_port=os.getenv('PORT', 7860))
