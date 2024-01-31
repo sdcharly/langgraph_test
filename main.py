@@ -127,39 +127,15 @@ workflow.set_entry_point("supervisor")
 
 graph = workflow.compile()
 
-@app.route('/process', methods=['POST'])
-def process_request():
+def process_input(user_input):
     try:
-        # Logging incoming request data for debugging (be cautious with sensitive data)
-        app.logger.info(f"Incoming request data: {request.form}")
-
-        if 'inputText' not in request.form:
-            app.logger.warning("Missing 'inputText' in form data")
-            return jsonify({"error": "Missing input data"}), 400
-
-        user_input = request.form['inputText']
-        response = process_input(user_input)
-        return jsonify({"response": response})
-
-    except KeyError as e:
-        # Specific error when a key is missing in the request data
-        app.logger.error(f"KeyError in process_request: {str(e)}")
-        return jsonify({"error": f"KeyError: {str(e)}"}), 500
-
-    except json.JSONDecodeError as e:
-        # Error handling for JSON decoding problems
-        app.logger.error(f"JSONDecodeError in process_request: {str(e)}")
-        return jsonify({"error": f"JSONDecodeError: {str(e)}"}), 500
-
-    except requests.RequestException as e:
-        # Error handling for issues with external requests (e.g., network issues)
-        app.logger.error(f"RequestException in process_request: {str(e)}")
-        return jsonify({"error": f"RequestException: {str(e)}"}), 500
-
+        response = graph.stream({"messages": [HumanMessage(content=user_input)]})
+        # Assuming the desired output is in the last message
+        final_output = [state for state in response if "__end__" in state][-1]
+        return final_output.get('messages', ["No response"])[-1].content
     except Exception as e:
-        # Generic error handling for any other exceptions
-        app.logger.error(f"Unhandled exception in process_request: {str(e)}")
-        return jsonify({"error": f"Unhandled exception: {str(e)}"}), 500
+        app.logger.error(f"Error in process_input: {str(e)}")
+        return f"Error during processing: {str(e)}"
 
 @app.route('/')
 def index():
@@ -169,15 +145,15 @@ def index():
 def process_request():
     try:
         if 'inputText' not in request.form:
-            app.logger.warning("Missing input data in form")
+            app.logger.warning("Missing 'inputText' in form data")
             return jsonify({"error": "Missing input data"}), 400
 
         user_input = request.form['inputText']
         response = process_input(user_input)
         return jsonify({"response": response})
     except Exception as e:
-        app.logger.error(f"Error in process_request: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Unhandled exception in process_request: {str(e)}")
+        return jsonify({"error": f"Unhandled exception: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
