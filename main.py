@@ -11,6 +11,8 @@ from langchain_openai import ChatOpenAI
 from typing import Annotated, Any, Dict, List, Optional, Sequence, TypedDict
 import gradio as gr
 
+interface.launch(server_port=os.getenv('PORT', 7860))
+
 # Set environment variables
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = "LangGraph Research Agents"
